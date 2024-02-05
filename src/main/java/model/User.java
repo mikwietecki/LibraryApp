@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class User implements Serializable {
+public abstract class User implements Serializable, CSVConvertible {
     private String firstName;
     private String lastName;
     private String pesel;
@@ -37,8 +37,6 @@ public abstract class User implements Serializable {
     public void setPesel(String pesel) {
         this.pesel = pesel;
     }
-
-    public abstract String toCSV();
 
     @Override
     public boolean equals(Object o) {

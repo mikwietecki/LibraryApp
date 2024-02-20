@@ -22,14 +22,14 @@ public class CSVFileManager implements FileManager {
     }
 
     private void importUsers(Library library) {
-        try (var sc = new Scanner(new File(USERS_FILE_NAME))){
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                LibraryUser libraryUser = createUserFromString(line);
-                library.addUser(libraryUser);
-            }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(USERS_FILE_NAME))) {
+            bufferedReader.lines()
+                    .map(line -> createUserFromString(line))
+                    .forEach(library::addUser);
         } catch (FileNotFoundException e) {
             throw new DataInportException("Brak pliku " + USERS_FILE_NAME);
+        } catch (IOException e) {
+            throw new DataInportException("Błąd odczytu pliku " + USERS_FILE_NAME);
         }
     }
 
@@ -42,14 +42,14 @@ public class CSVFileManager implements FileManager {
     }
 
     private void importPublications(Library library) {
-        try (var sc = new Scanner(new File(PUBLICATIONS_FILE_NAME))){
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                Publication publication = createObjectFromString(line);
-                library.addPublication(publication);
-            }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(PUBLICATIONS_FILE_NAME))) {
+            bufferedReader.lines()
+                    .map(line -> createObjectFromString(line))
+                    .forEach(library::addPublication);
         } catch (FileNotFoundException e) {
             throw new DataInportException("Brak pliku " + PUBLICATIONS_FILE_NAME);
+        } catch (IOException e) {
+            throw new DataInportException("Błąd odczytu pliku " + PUBLICATIONS_FILE_NAME);
         }
     }
 
